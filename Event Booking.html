@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ฟอร์มจองตั๋วกิจกรรม</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <form id="bookingForm" class="bg-white p-6 rounded shadow-md w-full max-w-sm space-y-3 text-base">
+        <h2 class="text-xl font-bold text-center">จองตั๋วกิจกรรม</h2>
+
+        <div>
+            <label for="fullName" class="block font-medium">ชื่อ-นามสกุล:</label>
+            <input type="text" id="fullName" class="w-full border p-2 rounded" required>
+            <p id="nameError" class="text-red-500 text-sm"></p>
+        </div>
+
+        <div>
+            <label for="phone" class="block font-medium">เบอร์โทรศัพท์:</label>
+            <input type="tel" id="phone" class="w-full border p-2 rounded" required>
+            <p id="phoneError" class="text-red-500 text-sm"></p>
+        </div>
+
+        <div>
+            <label for="ticketType" class="block font-medium">ประเภทตั๋ว:</label>
+            <select id="ticketType" class="w-full border p-2 rounded">
+                <option value="ปกติ">ปกติ</option>
+                <option value="VIP">VIP</option>
+                <option value="Premium">Premium</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="ticketCount" class="block font-medium">จำนวนตั๋ว:</label>
+            <input type="number" id="ticketCount" class="w-full border p-2 rounded" min="1" max="5" required>
+            <p id="countError" class="text-red-500 text-sm"></p>
+        </div>
+
+        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+            จองตั๋ว
+        </button>
+    </form>
+
+    <!-- Modal -->
+    <div id="successModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+        <div class="bg-white p-6 rounded shadow-lg w-11/12 sm:w-80 text-center">
+            <h3 class="text-lg font-bold mb-2">จองตั๋วสำเร็จ</h3>
+            <p id="successMessage"></p>
+            <button id="closeModal" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">ปิด</button>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('bookingForm');
+        const nameInput = document.getElementById('fullName');
+        const phoneInput = document.getElementById('phone');
+        const typeInput = document.getElementById('ticketType');
+        const countInput = document.getElementById('ticketCount');
+        const nameError = document.getElementById('nameError');
+        const phoneError = document.getElementById('phoneError');
+        const countError = document.getElementById('countError');
+        const modal = document.getElementById('successModal');
+        const successMessage = document.getElementById('successMessage');
+        const closeModal = document.getElementById('closeModal');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            let valid = true;
+            nameError.textContent = '';
+            phoneError.textContent = '';
+            countError.textContent = '';
+
+            const name = nameInput.value.trim();
+            const phone = phoneInput.value.trim();
+            const type = typeInput.value;
+            const count = parseInt(countInput.value);
+
+            if (name.split(' ').length < 2) {
+                nameError.textContent = 'กรุณากรอกชื่อ-นามสกุลอย่างน้อย 2 คำ';
+                valid = false;
+            }
+
+            if (!/^0\\d{9}$/.test(phone)) {
+                phoneError.textContent = 'เบอร์โทรต้องเป็นตัวเลข 10 หลักและขึ้นต้นด้วย 0';
+                valid = false;
+            }
+
+            if (isNaN(count) || count < 1 || count > 5) {
+                countError.textContent = 'กรุณากรอกจำนวนตั๋วระหว่าง 1 ถึง 5';
+                valid = false;
+            } else if ((type === 'VIP' || type === 'Premium') && count > 2) {
+                countError.textContent = 'VIP และ Premium จองได้ไม่เกิน 2 ใบ';
+                valid = false;
+            }
+
+            if (valid) {
+                successMessage.textContent = `จำนวน: ${count} ประเภท: ${type}`;
+                modal.classList.remove('hidden');
+            }
+        });
+
+        closeModal.addEventListener('click', () => {
+            modal.classList.add('hidden');
+            form.reset();
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.classList.add('hidden');
+        });
+    </script>
+</body>
+
+</html>
