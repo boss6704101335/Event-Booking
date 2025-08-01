@@ -13,19 +13,19 @@
         <h2 class="text-xl font-bold text-center">จองตั๋วกิจกรรม</h2>
 
         <div>
-            <label for="fullName" class="block font-medium">ชื่อ-นามสกุล:</label>
+            <label for="fullName" class="block font-medium">ชื่อ-นามสกุล</label>
             <input type="text" id="fullName" class="w-full border p-2 rounded" required>
             <p id="nameError" class="text-red-500 text-sm"></p>
         </div>
 
         <div>
-            <label for="phone" class="block font-medium">เบอร์โทรศัพท์:</label>
+            <label for="phone" class="block font-medium">เบอร์โทรศัพท์</label>
             <input type="tel" id="phone" class="w-full border p-2 rounded" required>
             <p id="phoneError" class="text-red-500 text-sm"></p>
         </div>
 
         <div>
-            <label for="ticketType" class="block font-medium">ประเภทตั๋ว:</label>
+            <label for="ticketType" class="block font-medium">ประเภทตั๋ว</label>
             <select id="ticketType" class="w-full border p-2 rounded">
                 <option value="ปกติ">ปกติ</option>
                 <option value="VIP">VIP</option>
@@ -34,7 +34,7 @@
         </div>
 
         <div>
-            <label for="ticketCount" class="block font-medium">จำนวนตั๋ว:</label>
+            <label for="ticketCount" class="block font-medium">จำนวนตั๋ว</label>
             <input type="number" id="ticketCount" class="w-full border p-2 rounded" min="1" max="5" required>
             <p id="countError" class="text-red-500 text-sm"></p>
         </div>
@@ -44,7 +44,6 @@
         </button>
     </form>
 
-    <!-- Modal -->
     <div id="successModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
         <div class="bg-white p-6 rounded shadow-lg w-11/12 sm:w-80 text-center">
             <h3 class="text-lg font-bold mb-2">จองตั๋วสำเร็จ</h3>
@@ -83,7 +82,7 @@
                 valid = false;
             }
 
-            if (!/^0\\d{9}$/.test(phone)) {
+            if (!/^0\d{9}$/.test(phone)) {
                 phoneError.textContent = 'เบอร์โทรต้องเป็นตัวเลข 10 หลักและขึ้นต้นด้วย 0';
                 valid = false;
             }
